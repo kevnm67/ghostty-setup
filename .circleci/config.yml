@@ -1,7 +1,7 @@
 version: "2.1"
 
-# ghostty-setup CI — shellcheck + pre-commit
-# No secrets required — no context needed
+# ghostty-setup CI
+# Contexts: circleci-agents (requires GITHUB_TOKEN with contents:write for releases)
 
 orbs:
   shellcheck: circleci/shellcheck@3.4.0
@@ -25,6 +25,20 @@ jobs:
           key: pre-commit-v1-{{ checksum ".pre-commit-config.yaml" }}
           paths:
             - ~/.cache/pre-commit
+
+  release:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: Create GitHub release
+          command: |
+            curl -sf -X POST \
+              -H "Authorization: token ${GITHUB_TOKEN}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              "https://api.github.com/repos/kevnm67/ghostty-setup/releases" \
+              -d "{\"tag_name\":\"${CIRCLE_TAG}\",\"generate_release_notes\":true,\"make_latest\":true}"
 
 workflows:
   pr_workflow:
@@ -50,3 +64,13 @@ workflows:
           filters:
             branches:
               only: main
+
+  release_workflow:
+    jobs:
+      - release:
+          context: circleci-agents
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/

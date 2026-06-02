@@ -24,13 +24,16 @@ setup_ghostty() {
         link "$REPO/ghostty/$s" "$HOME/.config/ghostty/$s"
         chmod +x "$REPO/ghostty/$s"
     done
+    # Also expose yazi-launch on PATH so tmuxinator layouts don't hardcode ghostty paths
+    mkdir -p "$HOME/.local/bin"
+    link "$REPO/ghostty/yazi-launch.sh" "$HOME/.local/bin/yazi-launch"
 }
 
 setup_tmux() {
     echo "→ tmux"
-    # dev.yml launches yazi-launch.sh — ensure it's linked even if ghostty wasn't set up separately
-    link "$REPO/ghostty/yazi-launch.sh" "$HOME/.config/ghostty/yazi-launch.sh"
-    chmod +x "$REPO/ghostty/yazi-launch.sh"
+    # Ensure yazi-launch is on PATH even if ghostty wasn't set up separately
+    mkdir -p "$HOME/.local/bin"
+    link "$REPO/ghostty/yazi-launch.sh" "$HOME/.local/bin/yazi-launch"
 
     link "$REPO/tmux/.tmux.conf" "$HOME/.tmux.conf"
     link "$REPO/tmux/pane-label.sh" "$HOME/.tmux/pane-label.sh"

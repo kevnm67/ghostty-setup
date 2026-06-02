@@ -7,7 +7,7 @@ windows:
   - code:
       layout: main-vertical
       panes:
-        - ~/.config/ghostty/yazi-launch.sh
+        - yazi-launch  # installed to ~/.local/bin by make install
         - # terminal
         - # terminal
   - terminal:
