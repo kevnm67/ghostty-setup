@@ -5,6 +5,7 @@ version: "2.1"
 
 orbs:
   shellcheck: circleci/shellcheck@3.4.0
+  gh: circleci/github-cli@2.7.2
 
 jobs:
   pre_commit:
@@ -31,14 +32,10 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
+      - gh/setup
       - run:
           name: Create GitHub release
-          command: |
-            curl -sf -X POST \
-              -H "Authorization: token ${GITHUB_TOKEN}" \
-              -H "Accept: application/vnd.github.v3+json" \
-              "https://api.github.com/repos/kevnm67/ghostty-setup/releases" \
-              -d "{\"tag_name\":\"${CIRCLE_TAG}\",\"generate_release_notes\":true,\"make_latest\":true}"
+          command: gh release create "$CIRCLE_TAG" --generate-notes --latest
 
 workflows:
   pr_workflow:
