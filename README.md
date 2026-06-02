@@ -1,8 +1,22 @@
 # ghostty-setup
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/kevnm67/ghostty-setup/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/kevnm67/ghostty-setup/tree/main)
 [![ShellCheck](https://github.com/kevnm67/ghostty-setup/actions/workflows/lint.yml/badge.svg)](https://github.com/kevnm67/ghostty-setup/actions/workflows/lint.yml)
+[![Maintainability](https://qlty.sh/gh/kevnm67/projects/ghostty-setup/maintainability.svg)](https://qlty.sh/gh/kevnm67/projects/ghostty-setup)
+[![Code Coverage](https://qlty.sh/gh/kevnm67/projects/ghostty-setup/coverage.svg)](https://qlty.sh/gh/kevnm67/projects/ghostty-setup)
 
 Opinionated Ghostty + tmux bootstrap for macOS. Clone and run `make install` to get a fully configured terminal environment.
+
+## Table of Contents
+
+- [Contents](#contents)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Tmuxinator Layouts](#tmuxinator-layouts)
+- [tmux Key Reference](#tmux-key-reference)
+- [Releasing](#releasing)
+- [Development](#development)
 
 ## Contents
 
@@ -21,6 +35,7 @@ Opinionated Ghostty + tmux bootstrap for macOS. Clone and run `make install` to 
 
 - macOS
 - [Homebrew](https://brew.sh)
+- `claude` CLI — required for the Claude agent tmuxinator layouts
 
 ## Installation
 
@@ -41,6 +56,8 @@ make tmux       # tmux + TPM + tmuxinator only
 make deps       # brew installs only
 make clean      # remove symlinks installed by this repo
 make lint       # shellcheck all scripts
+make format     # pre-commit --all-files
+make labels     # apply canonical GitHub labels to this repo
 ```
 
 ## Tmuxinator Layouts
@@ -64,6 +81,15 @@ make lint       # shellcheck all scripts
 | `prefix + Q` | Spawn 4-pane Claude squad |
 | `prefix + C` | Single Claude pane |
 | `prefix + r` | Reload config |
+
+## Releasing
+
+Tags trigger an automatic GitHub release with generated notes:
+
+```sh
+git tag v1.0.0
+git push origin v1.0.0
+```
 
 ## Development
 

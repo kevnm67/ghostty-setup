@@ -1,4 +1,4 @@
-.PHONY: help install setup deps ghostty tmux lint format clean
+.PHONY: help install setup deps ghostty tmux lint format clean labels
 
 help:
 	@echo "Usage: make <target>"
@@ -10,7 +10,8 @@ help:
 	@echo "  tmux      Link tmux configs + TPM (also links ghostty scripts tmux depends on)"
 	@echo "  lint      Run shellcheck on all scripts"
 	@echo "  format    Run pre-commit hooks on all files"
-	@echo "  clean     Remove symlinks installed by this repo"
+	@echo "  clean     Remove symlinks installed by this repo
+	@echo "  labels    Apply canonical GitHub labels to this repo""
 
 install: deps ghostty tmux
 
@@ -31,6 +32,9 @@ lint:
 
 format:
 	pre-commit run --all-files
+
+labels:
+	bash scripts/setup-labels.sh
 
 clean:
 	@echo "Removing symlinks pointing into this repo..."

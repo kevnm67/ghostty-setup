@@ -1,0 +1,61 @@
+version: "2.1"
+
+# ghostty-setup CI — shellcheck + pre-commit on PRs, verify on main
+# Contexts: none required (no secrets needed for linting)
+# Docs: .circleci/README.md
+
+orbs:
+  shellcheck: circleci/shellcheck@3.2.0
+
+jobs:
+  lint:
+    executor: shellcheck/default
+    steps:
+      - checkout
+      - shellcheck/check:
+          dir: .
+          pattern: "**/*.sh"
+          severity: warning
+          exclude: SC2148  # allow scripts without shebangs (tmux format strings)
+
+  pre_commit:
+    docker:
+      - image: cimg/python:3.12
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - pre-commit-v1-{{ checksum ".pre-commit-config.yaml" }}
+      - run:
+          name: Install pre-commit
+          command: pip install pre-commit --quiet
+      - run:
+          name: Run pre-commit
+          command: pre-commit run --all-files
+      - save_cache:
+          key: pre-commit-v1-{{ checksum ".pre-commit-config.yaml" }}
+          paths:
+            - ~/.cache/pre-commit
+
+workflows:
+  pr_workflow:
+    jobs:
+      - lint:
+          filters:
+            branches:
+              ignore: main
+      - pre_commit:
+          filters:
+            branches:
+              ignore: main
+
+  main_workflow:
+    jobs:
+      - lint:
+          filters:
+            branches:
+              only: main
+      - pre_commit:
+          filters:
+            branches:
+              only: main
