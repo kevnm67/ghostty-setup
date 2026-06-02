@@ -1,0 +1,16 @@
+# DevOps workspace
+# Usage: mux devops
+name: devops
+root: ~
+
+windows:
+  - infra:
+      layout: tiled
+      panes:
+        - # IaC
+        - # cloud CLI
+        - # logs
+        - # shell
+  - claude:
+      panes:
+        - claude

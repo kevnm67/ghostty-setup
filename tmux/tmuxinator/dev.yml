@@ -1,0 +1,15 @@
+# Dev workspace: editor + terminal + file browser
+# Usage: mux dev [project_path]
+name: dev
+root: <%= @args[0] || "~" %>
+
+windows:
+  - code:
+      layout: main-vertical
+      panes:
+        - ~/.config/ghostty/yazi-launch.sh
+        - # terminal
+        - # terminal
+  - terminal:
+      panes:
+        - # clean shell

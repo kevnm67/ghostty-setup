@@ -1,0 +1,15 @@
+# Claude agent team: lead + 2 workers
+# Usage: mux claude-team [project_path]
+name: claude-team
+root: <%= @args[0] || "." %>
+
+windows:
+  - agents:
+      layout: main-vertical
+      panes:
+        - claude
+        - claude
+        - claude
+  - shell:
+      panes:
+        - # clean shell
