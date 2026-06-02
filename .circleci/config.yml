@@ -1,7 +1,8 @@
 version: "2.1"
 
 # ghostty-setup CI
-# Contexts: circleci-agents (requires GITHUB_TOKEN with contents:write for releases)
+# Contexts: circleci-agents (GITHUB_TOKEN with contents:write)
+# Deploy: main_workflow → CI passes → approve-deploy (hold) → tag_release → release_workflow
 
 orbs:
   shellcheck: circleci/shellcheck@3.4.0
@@ -26,6 +27,16 @@ jobs:
           key: pre-commit-v1-{{ checksum ".pre-commit-config.yaml" }}
           paths:
             - ~/.cache/pre-commit
+
+  tag_release:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - gh/setup
+      - run:
+          name: Tag and push release
+          command: .circleci/scripts/tag_release.sh
 
   release:
     docker:
@@ -58,6 +69,21 @@ workflows:
             branches:
               only: main
       - pre_commit:
+          filters:
+            branches:
+              only: main
+      - approve-deploy:
+          type: approval
+          requires:
+            - shellcheck/check
+            - pre_commit
+          filters:
+            branches:
+              only: main
+      - tag_release:
+          context: circleci-agents
+          requires:
+            - approve-deploy
           filters:
             branches:
               only: main
