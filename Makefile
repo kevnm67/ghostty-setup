@@ -17,7 +17,7 @@ install: deps ghostty tmux
 setup: install
 
 deps:
-	brew install tmux tmuxinator yazi
+	brew install tmux tmuxinator yazi shellcheck pre-commit
 	brew install --cask ghostty font-jetbrains-mono-nerd-font
 
 ghostty:

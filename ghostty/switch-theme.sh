@@ -1,10 +1,18 @@
 #!/bin/bash
-# Usage: switch-theme.sh [catppuccin|tokyonight|kanagawa|rosepine|steel|list]
+# Usage: switch-theme.sh [catppuccin|tokyonight|kanagawa|rosepine|steel|list|restore]
+#
+# sed -i '' requires the real file path, not a symlink — resolve via realpath.
 
-CONFIG="$HOME/.config/ghostty/config"
+SYMLINK="$HOME/.config/ghostty/config"
+CONFIG="$(realpath "$SYMLINK" 2>/dev/null || echo "$SYMLINK")"
 BACKUP="${CONFIG}.bak"
 
-[[ ! -f "$BACKUP" ]] && cp "$CONFIG" "$BACKUP"
+if [[ ! -f "$CONFIG" ]]; then
+    echo "Error: config not found at $CONFIG" >&2
+    exit 1
+fi
+
+[[ ! -f "$BACKUP" && -e "$CONFIG" ]] && cp "$CONFIG" "$BACKUP"
 
 set_theme() {
     sed -i '' "s/^theme = .*/theme = $1/" "$CONFIG"
