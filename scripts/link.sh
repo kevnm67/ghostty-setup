@@ -28,6 +28,10 @@ setup_ghostty() {
 
 setup_tmux() {
     echo "→ tmux"
+    # dev.yml launches yazi-launch.sh — ensure it's linked even if ghostty wasn't set up separately
+    link "$REPO/ghostty/yazi-launch.sh" "$HOME/.config/ghostty/yazi-launch.sh"
+    chmod +x "$REPO/ghostty/yazi-launch.sh"
+
     link "$REPO/tmux/.tmux.conf" "$HOME/.tmux.conf"
     link "$REPO/tmux/pane-label.sh" "$HOME/.tmux/pane-label.sh"
     chmod +x "$REPO/tmux/pane-label.sh"
