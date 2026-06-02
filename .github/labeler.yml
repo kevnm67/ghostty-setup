@@ -1,0 +1,15 @@
+ci:
+  - .github/**
+
+docs:
+  - "*.md"
+
+ghostty:
+  - ghostty/**
+
+tmux:
+  - tmux/**
+
+scripts:
+  - scripts/**
+  - Makefile
