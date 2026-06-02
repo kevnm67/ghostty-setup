@@ -1,23 +1,12 @@
 version: "2.1"
 
-# ghostty-setup CI — shellcheck + pre-commit on PRs, verify on main
-# Contexts: none required (no secrets needed for linting)
-# Docs: .circleci/README.md
+# ghostty-setup CI — shellcheck + pre-commit
+# No secrets required — no context needed
 
 orbs:
-  shellcheck: circleci/shellcheck@3.2.0
+  shellcheck: circleci/shellcheck@3.4.0
 
 jobs:
-  lint:
-    executor: shellcheck/default
-    steps:
-      - checkout
-      - shellcheck/check:
-          dir: .
-          pattern: "**/*.sh"
-          severity: warning
-          exclude: SC2148  # allow scripts without shebangs (tmux format strings)
-
   pre_commit:
     docker:
       - image: cimg/python:3.12
@@ -40,7 +29,8 @@ jobs:
 workflows:
   pr_workflow:
     jobs:
-      - lint:
+      - shellcheck/check:
+          severity: warning
           filters:
             branches:
               ignore: main
@@ -51,7 +41,8 @@ workflows:
 
   main_workflow:
     jobs:
-      - lint:
+      - shellcheck/check:
+          severity: warning
           filters:
             branches:
               only: main
