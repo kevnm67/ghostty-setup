@@ -1,15 +1,22 @@
+# actions/labeler@v5 format: each label maps to a list of match conditions.
 ci:
-  - .github/**
+  - changed-files:
+      - any-glob-to-any-file: .github/**
 
 docs:
-  - "*.md"
+  - changed-files:
+      - any-glob-to-any-file: "*.md"
 
 ghostty:
-  - ghostty/**
+  - changed-files:
+      - any-glob-to-any-file: ghostty/**
 
 tmux:
-  - tmux/**
+  - changed-files:
+      - any-glob-to-any-file: tmux/**
 
 scripts:
-  - scripts/**
-  - Makefile
+  - changed-files:
+      - any-glob-to-any-file:
+          - scripts/**
+          - Makefile
