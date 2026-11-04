@@ -11,7 +11,7 @@ orbs:
 jobs:
   pre_commit:
     docker:
-      - image: cimg/python:3.12
+      - image: cimg/python:3.15
     steps:
       - checkout
       - restore_cache:
