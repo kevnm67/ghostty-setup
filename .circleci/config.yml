@@ -6,7 +6,7 @@ version: "2.1"
 
 orbs:
   shellcheck: circleci/shellcheck@3.4.0
-  gh: circleci/github-cli@2.7.2
+  gh: circleci/github-cli@3.0.0
 
 jobs:
   pre_commit:
