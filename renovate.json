@@ -2,5 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "description": "One grouped PR for all dependency updates (majors included)",
+      "matchPackageNames": ["*"],
+      "groupName": "all dependencies"
+    }
   ]
 }
