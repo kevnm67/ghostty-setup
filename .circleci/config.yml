@@ -5,8 +5,8 @@ version: "2.1"
 # Deploy: main_workflow → CI passes → approve-deploy (hold) → tag_release → release_workflow
 
 orbs:
-  shellcheck: circleci/shellcheck@3.4.0
-  gh: circleci/github-cli@3.0.0
+  shellcheck: circleci/shellcheck@3.5.1
+  gh: circleci/github-cli@3.0.1
 
 jobs:
   pre_commit:
